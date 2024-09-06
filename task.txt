@@ -1,0 +1,53 @@
+1.**Create Operation:**
+
+//create a new database named "library" and switch to it
+test> use library
+switched to db.library
+
+//create a collection named "books" with fields: title, author, and published_year.
+library> db.createCollection("Books")
+
+//Insert a document into the "books" collection with details of your Favorite book.
+--> for single data// 
+library> db.Books.insertOne({title:"The Lord of the Rings",author:"J.R.R.Tolkien",publication_year:1954})
+--> for many datas//
+library> db.Books.insertMany([{title:"The Great Gatsby",author:"F.Scott Fitzgerald",publication_year:1925},{title:"A Good Girl's Guide to Murder",author:"Holly Jackson",publication_year:2019},{title:"Wish I could tell you",author:"Durjoy Datta",publication_year:2019}])
+
+
+2.**Read Opertion:**
+
+//Rettrive all documents from the book collection.
+library> db.Books.find()
+
+//Find and display only the document where the author is "Holly Jackson"
+library> db.Books.find({author:"Holly Jackson"})
+
+//Fetch and display the document with the earliest publication_year
+library> db.Books.find().sort({publication_year:1}).limit(1)
+
+
+3.**Update Operation:**
+
+//Update the Published year of the book with the title "The Catcher in the Rye" to the current year.
+library> db.Books.update({title:"The Catcher in the Rye"},{$set:{publication_year:2024}})
+
+//Add a new field "genre" with value "Mystery" to all documents.
+library> db.Books.update({},{$set:{genre:"mystery"}},{multi:true})
+
+
+4.**Delete:**
+
+//Remove the Document with the title "1925"
+library> db.Books.remove({title:"1925"})
+
+//Delete all the documents where the publication_year is before 2000.
+library> db.Books.remove({publication_year: {$lt:2000}})
+
+
+5.**Advanced Query:**
+
+//find and display top 3 recently published books from "Books" collection.
+library> db.Books.remove({publication_year:-1}).limit(2)
+
+//Rettrive documents from the "Books" collection where the title contains word "MongoDB" or "NoSQL"
+library> db.Books.find({title: {$regex: /MongoBD|NoSQL/i }})
